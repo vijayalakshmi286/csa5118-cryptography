@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 5
+
+void prepareKeyTable(char key[], char keyTable[SIZE][SIZE]) {
+    int i, j, k;
+    char temp[26], *keystr;
+    memset(keyTable, 0, SIZE * SIZE);
+    keystr = strupr(key);
+    k = 0;
+    for (i = 0; i < strlen(keystr); i++) {
+        if (keystr[i] != 'J') {
+            temp[k++] = keystr[i];
+        }
+    }
+    temp[k] = '\0';
+    k = 0;
+    for (i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            if (k < strlen(temp)) {
+                keyTable[i][j] = temp[k++];
+            }
+        }
+    }
+}
+
+void generatePlayfairKey(char keyTable[SIZE][SIZE], char key[]) {
+    int i, j;
+    char temp[26];
+    int k = 0;
+
+
+    for (i = 0; i < 26; i++) {
+        if (i != ('J' - 'A')) {
+            temp[k++] = 'A' + i;
+        }
+    }
+    temp[k] = '\0';
+
+    k = 0;
+
+    for (i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            if (keyTable[i][j] == 0) {
+                keyTable[i][j] = temp[k++];
+            }
+        }
+    }
+}
+
+void printKeyTable(char keyTable[SIZE][SIZE]) {
+    int i, j;
+
+    printf("Playfair Key Table:\n");
+    for (i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            printf("%c ", keyTable[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void encrypt(char keyTable[SIZE][SIZE], char plaintext[]) {
+    printf("\nEncrypted Text: %s\n", plaintext);
+}
+
+int main() {
+    char key[50];
+    char plaintext[50];
+    char keyTable[SIZE][SIZE];
+
+    printf("Enter the key: ");
+    scanf("%s", key);
+
+    printf("Enter the plaintext: ");
+    scanf("%s", plaintext);
+
+    prepareKeyTable(key, keyTable);
+    generatePlayfairKey(keyTable, key);
+    printKeyTable(keyTable);
+
+    encrypt(keyTable, plaintext);
+
+    return 0;
+}
