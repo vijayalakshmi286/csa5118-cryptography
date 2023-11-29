@@ -1,0 +1,29 @@
+from Crypto.Cipher import DES3
+from Crypto.Random import get random bytes
+def pad(text, block size):
+padding_ size = block size - len(text) % block size
+padding = bytes([padding size] * padding size)
+return text + padding
+def encrypt 3des cbc(plaintext, key):
+iv = get random bytes(8) # Initialization vector
+cipher = DES3.new(key, DES3.MODE_CBC, iv)
+ciphertext = cipher.encrypt(pad(plaintext, 8))
+return iv + ciphertext
+def decrypt_3des_bc(ciphertext, key):
+iv = ciphertext :8]
+ciphertext = ciphertext 8:
+cipher = DES3.new(key, DES3.MODE CBC, iv)
+decrypted = cipher. decrypt(ciphertext)
+padding size = decrypted[-1]
+return decrypted:-padding_size]
+def main():
+key = get random bytes(24) # 3DES requires a 24-byte key
+plaintext = "Hello, this is a�test�message."
+plaintext = plaintext.encode('utf-8')
+encrypted = encrypt 3des cbc(plaintext, key)
+decrypted = decrypt 3des cbc(encrypted, key).decode(utf-8')
+print("Plaintext:", plaintext)
+print("Encrypted:", encrypted.hex))
+print("Decrypted:", decrypted)
+if name==" main
+main()
